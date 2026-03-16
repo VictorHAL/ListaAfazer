@@ -89,5 +89,3 @@ ListaAfazer/
 - [ ] Categorias e prioridades
 
 ---
-
-> Desenvolvido como protótipo contratado — apresentação prevista para 07/04/2025.
