@@ -84,11 +84,13 @@ ListaAfazer/
 
 - [ ] Adicionar edição da tarefa
 - [ ] Adicionar data de conclusão da tarefa
+- [ ] Alterar cores para tons claros pasteis
 - [ ] Autenticação de usuários
 - [ ] Migração para Firebase Firestore
 - [ ] Deploy no Firebase Hosting
 - [ ] Edição inline de tarefas
-- [ ] Categorias e prioridades
+- [ ] Mover as tarefas de lugar 
+- [ ] Separar tarefas concluidas de tarefas a serem feitas
 
 ---
 
