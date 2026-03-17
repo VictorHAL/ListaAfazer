@@ -93,5 +93,3 @@ ListaAfazer/
 - [ ] Separar tarefas concluidas de tarefas a serem feitas
 
 ---
-
-> Desenvolvido como protótipo contratado — apresentação prevista para 07/04/2025.
