@@ -82,6 +82,8 @@ ListaAfazer/
 
 ## 🗺️ Próximos Passos
 
+- [ ] Adicionar edição da tarefa
+- [ ] Adicionar data de conclusão da tarefa
 - [ ] Autenticação de usuários
 - [ ] Migração para Firebase Firestore
 - [ ] Deploy no Firebase Hosting
