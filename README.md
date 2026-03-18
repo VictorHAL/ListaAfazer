@@ -88,8 +88,7 @@ ListaAfazer/
 - [ ] Autenticação de usuários
 - [ ] Migração para Firebase Firestore
 - [ ] Deploy no Firebase Hosting
-- [ ] Edição inline de tarefas
-- [x] Mover as tarefas de lugar 
+- [x] Deixar tarefas serem movidas pelo usuário 
 - [x] Separar tarefas concluidas de tarefas a serem feitas
 
 ---
