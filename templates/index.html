@@ -3,29 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TODO — Lista de Tarefas</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <title>Lista de Afazeres</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
   <style>
-    /* ── Reset & Variables ─────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:        #0b0b0b;
-      --surface:   #141414;
-      --surface2:  #1c1c1c;
-      --border:    #272727;
-      --border2:   #333;
-      --accent:    #d4f244;
-      --accent-dim:#a8c235;
-      --text:      #ececec;
-      --muted:     #555;
-      --muted2:    #888;
-      --danger:    #ff5858;
-      --success:   #4dffb4;
-      --font-serif: 'Cormorant Garamond', Georgia, serif;
-      --font-mono:  'JetBrains Mono', monospace;
-      --radius:     4px;
-      --trans:      0.22s cubic-bezier(.4,0,.2,1);
+      --bg:         #f5f0eb;
+      --bg2:        #ede7df;
+      --surface:    #ffffff;
+      --border:     #e2d9cf;
+      --border2:    #d0c4b8;
+      --accent:     #7c9e87;
+      --accent-l:   #a8c4ae;
+      --accent-bg:  #eaf2ec;
+      --rose:       #c97b84;
+      --rose-bg:    #fdf0f1;
+      --amber:      #c9963a;
+      --amber-bg:   #fdf5e8;
+      --sky:        #6a9bbf;
+      --sky-bg:     #eef4f9;
+      --text:       #3a3128;
+      --text2:      #7a6f65;
+      --muted:      #b0a498;
+      --success:    #5a9e72;
+      --danger:     #c97b84;
+      --font-sans:  'Plus Jakarta Sans', sans-serif;
+      --font-serif: 'Lora', Georgia, serif;
+      --shadow:     0 1px 4px rgba(58,49,40,.07), 0 4px 16px rgba(58,49,40,.06);
+      --shadow-lg:  0 4px 24px rgba(58,49,40,.12);
+      --radius:     12px;
+      --radius-sm:  8px;
+      --trans:      0.2s cubic-bezier(.4,0,.2,1);
     }
 
     html { font-size: 16px; }
@@ -33,683 +42,717 @@
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: var(--font-mono);
+      font-family: var(--font-sans);
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 48px 20px 80px;
+      justify-content: center;
+      padding: 40px 16px 80px;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── Wrapper ───────────────────────────────── */
-    .app {
-      width: 100%;
-      max-width: 640px;
-    }
+    .app { width: 100%; max-width: 660px; }
 
-    /* ── Header ────────────────────────────────── */
+    /* ── Header ── */
     .header {
       display: flex;
-      justify-content: space-between;
       align-items: flex-end;
-      margin-bottom: 40px;
+      justify-content: space-between;
+      margin-bottom: 28px;
     }
 
-    .header-left {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .app-label {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 400;
-      letter-spacing: 0.2em;
-      color: var(--muted);
-      text-transform: uppercase;
-    }
-
-    .app-title {
+    .header-title {
       font-family: var(--font-serif);
-      font-size: clamp(48px, 8vw, 72px);
-      font-weight: 300;
+      font-size: clamp(36px, 6vw, 52px);
+      font-weight: 600;
+      color: var(--text);
       line-height: 1;
       letter-spacing: -0.02em;
-      color: var(--text);
     }
 
-    .app-title em {
+    .header-title em {
       font-style: italic;
       color: var(--accent);
     }
 
-    .header-right {
+    .header-sub {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      margin-top: 6px;
+    }
+
+    .progress-pill {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text2);
       display: flex;
-      flex-direction: column;
-      align-items: flex-end;
+      align-items: center;
       gap: 8px;
-      padding-bottom: 6px;
+      box-shadow: var(--shadow);
     }
 
-    .task-counter {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--muted2);
-      letter-spacing: 0.1em;
+    .progress-ring { width: 28px; height: 28px; }
+    .ring-bg { fill: none; stroke: var(--bg2); stroke-width: 3; }
+    .ring-fill {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-dasharray: 69.12;
+      stroke-dashoffset: 69.12;
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+      transition: stroke-dashoffset 0.5s cubic-bezier(.4,0,.2,1);
     }
 
-    .task-counter strong {
-      font-size: 28px;
-      font-weight: 300;
-      color: var(--text);
-      line-height: 1;
-    }
-
-    /* ── Progress bar ──────────────────────────── */
-    .progress-wrap {
-      width: 100%;
-      height: 1px;
-      background: var(--border);
-      margin-bottom: 36px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: var(--accent);
-      transition: width 0.5s cubic-bezier(.4,0,.2,1);
-      box-shadow: 0 0 8px var(--accent);
-    }
-
-    /* ── Toast ─────────────────────────────────── */
+    /* ── Toast ── */
     .toast {
       position: fixed;
-      top: 24px;
+      top: 20px;
       left: 50%;
-      transform: translateX(-50%) translateY(-80px);
-      background: var(--surface2);
-      border: 1px solid var(--border2);
+      transform: translateX(-50%) translateY(-70px);
+      background: var(--surface);
+      border: 1px solid var(--border);
       color: var(--text);
-      font-family: var(--font-mono);
-      font-size: 12px;
-      letter-spacing: 0.04em;
-      padding: 12px 20px;
-      border-radius: var(--radius);
-      z-index: 100;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 11px 20px;
+      border-radius: 99px;
+      z-index: 200;
+      box-shadow: var(--shadow-lg);
       transition: transform 0.3s cubic-bezier(.4,0,.2,1), opacity 0.3s;
       opacity: 0;
-      min-width: 240px;
-      text-align: center;
+      white-space: nowrap;
     }
+    .toast.show  { transform: translateX(-50%) translateY(0); opacity: 1; }
+    .toast.error   { border-color: var(--rose);    color: var(--rose); }
+    .toast.success { border-color: var(--success); color: var(--success); }
 
-    .toast.show {
-      transform: translateX(-50%) translateY(0);
-      opacity: 1;
-    }
-
-    .toast.error  { border-color: var(--danger);  color: var(--danger); }
-    .toast.success{ border-color: var(--success); color: var(--success); }
-
-    /* ── Input Section ─────────────────────────── */
-    .input-section {
-      display: flex;
-      gap: 0;
+    /* ── Input Card ── */
+    .input-card {
+      background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      background: var(--surface);
-      transition: border-color var(--trans);
-      margin-bottom: 32px;
+      box-shadow: var(--shadow);
+      padding: 20px;
+      margin-bottom: 20px;
     }
 
-    .input-section:focus-within {
-      border-color: var(--accent);
+    .input-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
     }
 
     .task-input {
       flex: 1;
-      background: transparent;
-      border: none;
-      outline: none;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
       color: var(--text);
-      font-family: var(--font-mono);
+      font-family: var(--font-sans);
       font-size: 14px;
-      padding: 16px 18px;
-      letter-spacing: 0.02em;
+      padding: 11px 14px;
+      outline: none;
+      transition: border-color var(--trans), box-shadow var(--trans);
     }
-
-    .task-input::placeholder {
-      color: var(--muted);
-      font-style: italic;
+    .task-input::placeholder { color: var(--muted); }
+    .task-input:focus {
+      border-color: var(--accent-l);
+      box-shadow: 0 0 0 3px var(--accent-bg);
     }
 
     .add-btn {
-      background: transparent;
-      border: none;
-      border-left: 1px solid var(--border);
-      color: var(--muted2);
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      padding: 0 20px;
-      cursor: pointer;
-      transition: background var(--trans), color var(--trans);
-      white-space: nowrap;
-    }
-
-    .add-btn:hover {
       background: var(--accent);
-      color: var(--bg);
-      border-left-color: var(--accent);
+      border: none;
+      border-radius: var(--radius-sm);
+      color: #fff;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 11px 20px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background var(--trans), transform var(--trans);
     }
+    .add-btn:hover  { background: #6a8c74; transform: translateY(-1px); }
+    .add-btn:active { transform: translateY(0); }
 
-    /* ── Limit indicator ───────────────────────── */
-    .limit-bar {
+
+
+
+    /* ── Limit dots ── */
+    .limit-row {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-bottom: 16px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--border);
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding: 0 2px;
     }
-
-    .limit-label {
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .limit-dots {
-      display: flex;
-      gap: 5px;
-    }
-
+    .limit-label { font-size: 11px; color: var(--muted); letter-spacing: 0.06em; }
+    .limit-dots  { display: flex; gap: 5px; }
     .dot {
-      width: 6px;
-      height: 6px;
+      width: 7px; height: 7px;
       border-radius: 50%;
       background: var(--border2);
       transition: background 0.3s;
     }
+    .dot.active { background: var(--accent); }
+    .dot.done   { background: var(--accent-l); }
 
-    .dot.filled {
-      background: var(--accent);
-    }
-
-    .dot.filled-done {
-      background: var(--muted);
-    }
-
-    /* ── Task List ─────────────────────────────── */
-    .task-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .task-item {
+    /* ── Section headers ── */
+    .section-header {
       display: flex;
       align-items: center;
-      gap: 16px;
-      padding: 18px 0;
-      border-bottom: 1px solid var(--border);
-      animation: slideIn 0.3s cubic-bezier(.4,0,.2,1) forwards;
-      opacity: 0;
-      transform: translateY(8px);
+      gap: 10px;
+      margin: 24px 0 10px;
     }
-
-    @keyframes slideIn {
-      to { opacity: 1; transform: translateY(0); }
+    .section-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text2);
+      white-space: nowrap;
     }
-
-    .task-item.removing {
-      animation: slideOut 0.25s cubic-bezier(.4,0,.2,1) forwards;
-    }
-
-    @keyframes slideOut {
-      to { opacity: 0; transform: translateX(-16px); }
-    }
-
-    .task-num {
-      font-family: var(--font-mono);
-      font-size: 10px;
+    .section-line { flex: 1; height: 1px; background: var(--border); }
+    .section-count {
+      font-size: 11px;
       color: var(--muted);
-      width: 20px;
-      flex-shrink: 0;
-      text-align: right;
-      user-select: none;
+      background: var(--bg2);
+      padding: 2px 8px;
+      border-radius: 99px;
     }
 
-    /* ── Custom Checkbox ───────────────────────── */
-    .checkbox-wrap {
-      position: relative;
-      flex-shrink: 0;
-      width: 18px;
-      height: 18px;
-      cursor: pointer;
-    }
-
-    .checkbox-wrap input {
-      position: absolute;
-      opacity: 0;
-      width: 100%;
-      height: 100%;
-      cursor: pointer;
-      z-index: 2;
-      margin: 0;
-    }
-
-    .checkbox-visual {
-      width: 18px;
-      height: 18px;
-      border: 1px solid var(--border2);
-      border-radius: 2px;
-      background: transparent;
+    /* ── Task Card ── */
+    .task-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      margin-bottom: 8px;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      align-items: flex-start;
+      gap: 12px;
+      box-shadow: var(--shadow);
+      transition: box-shadow var(--trans), border-color var(--trans), opacity var(--trans);
+      cursor: default;
+    }
+    .task-card:hover { box-shadow: var(--shadow-lg); border-color: var(--border2); }
+    .task-card.dragging  { opacity: 0.4; }
+    .task-card.drag-over { border-color: var(--accent); border-style: dashed; }
+    .task-card.done-card {
+      background: var(--bg2);
+      box-shadow: none;
+      border-color: var(--border);
+      opacity: 0.72;
+    }
+
+    @keyframes fadeSlideIn  { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+    @keyframes fadeSlideOut { from { opacity:1; } to { opacity:0; transform:translateX(-12px); } }
+    .task-card           { animation: fadeSlideIn 0.25s ease forwards; }
+    .task-card.removing  { animation: fadeSlideOut 0.22s ease forwards; }
+
+    /* ── Checkbox ── */
+    .check-wrap {
+      position: relative; flex-shrink: 0;
+      width: 20px; height: 20px;
+      margin-top: 2px; cursor: pointer;
+    }
+    .check-wrap input {
+      position: absolute; opacity: 0;
+      width: 100%; height: 100%; cursor: pointer; z-index: 2; margin: 0;
+    }
+    .check-visual {
+      width: 20px; height: 20px;
+      border: 2px solid var(--border2);
+      border-radius: 6px;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
       transition: all var(--trans);
     }
-
-    .checkbox-wrap input:checked ~ .checkbox-visual {
-      background: var(--accent);
-      border-color: var(--accent);
+    .check-wrap input:checked ~ .check-visual {
+      background: var(--accent); border-color: var(--accent);
     }
-
-    .checkbox-visual::after {
+    .check-visual::after {
       content: '';
-      width: 5px;
-      height: 9px;
-      border: 2px solid var(--bg);
-      border-top: none;
-      border-left: none;
+      width: 5px; height: 9px;
+      border: 2px solid #fff;
+      border-top: none; border-left: none;
       transform: rotate(45deg) scale(0);
       transition: transform 0.15s;
       margin-top: -2px;
     }
+    .check-wrap input:checked ~ .check-visual::after { transform: rotate(45deg) scale(1); }
 
-    .checkbox-wrap input:checked ~ .checkbox-visual::after {
-      transform: rotate(45deg) scale(1);
-    }
+    /* ── Task Body ── */
+    .task-body { flex: 1; min-width: 0; }
 
-    /* ── Task Text ─────────────────────────────── */
-    .task-text {
-      flex: 1;
-      font-family: var(--font-serif);
-      font-size: 18px;
-      font-weight: 400;
-      color: var(--text);
-      line-height: 1.3;
-      cursor: pointer;
+    .task-text-display {
+      font-size: 15px; font-weight: 400;
+      color: var(--text); line-height: 1.4;
+      cursor: pointer; word-break: break-word;
       transition: color var(--trans);
-      letter-spacing: 0.01em;
     }
-
-    .task-item.done .task-text {
-      color: var(--muted);
+    .task-card.done-card .task-text-display {
       text-decoration: line-through;
-      text-decoration-color: var(--muted);
-    }
-
-    .task-item.done .task-num {
-      color: #333;
-    }
-
-    /* ── Delete Button ─────────────────────────── */
-    .del-btn {
-      background: transparent;
-      border: none;
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: var(--muted);
-      border-radius: var(--radius);
-      transition: color var(--trans), background var(--trans);
-      flex-shrink: 0;
-      opacity: 0;
-    }
-
-    .task-item:hover .del-btn { opacity: 1; }
-
-    .del-btn:hover {
-      color: var(--danger);
-      background: rgba(255,88,88,0.08);
-    }
-
-    .del-btn svg {
-      width: 14px;
-      height: 14px;
-    }
-
-    /* ── Empty State ───────────────────────────── */
-    .empty-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      padding: 64px 0 32px;
-      color: var(--muted);
-      animation: slideIn 0.3s forwards;
-      opacity: 0;
-    }
-
-    .empty-state .empty-icon {
-      font-size: 32px;
-      filter: grayscale(1) opacity(0.4);
-    }
-
-    .empty-state p {
-      font-size: 12px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    /* ── Footer ────────────────────────────────── */
-    .footer {
-      margin-top: 40px;
-      padding-top: 20px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .footer-stat {
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
       color: var(--muted);
     }
 
-    .footer-stat span {
-      color: var(--accent);
+    .task-edit-input {
+      width: 100%;
+      background: var(--bg);
+      border: 1.5px solid var(--accent-l);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      padding: 4px 8px;
+      outline: none;
+      box-shadow: 0 0 0 3px var(--accent-bg);
+    }
+
+    .task-meta {
+      display: flex; align-items: center;
+      gap: 8px; margin-top: 6px; flex-wrap: wrap;
+    }
+
+
+
+    .completed-at-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
       font-weight: 500;
+      padding: 3px 8px;
+      border-radius: 99px;
+      background: var(--accent-bg);
+      color: var(--accent);
     }
 
-    .clear-done-btn {
+    /* ── Task Actions ── */
+    .task-actions {
+      display: flex; gap: 4px; flex-shrink: 0;
+      opacity: 0; transition: opacity var(--trans);
+    }
+    .task-card:hover .task-actions { opacity: 1; }
+
+    .icon-btn {
       background: transparent;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-family: var(--font-mono);
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 6px 12px;
-      cursor: pointer;
-      border-radius: var(--radius);
+      border: 1px solid transparent;
+      border-radius: 6px;
+      width: 30px; height: 30px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: var(--muted);
       transition: all var(--trans);
-      display: none;
     }
+    .icon-btn:hover { border-color: var(--border2); background: var(--bg); color: var(--text); }
+    .icon-btn.del:hover { border-color: var(--rose); color: var(--rose); background: var(--rose-bg); }
+    .icon-btn svg { width: 14px; height: 14px; }
 
-    .clear-done-btn.visible { display: block; }
-    .clear-done-btn:hover {
-      border-color: var(--danger);
-      color: var(--danger);
+    /* ── Drag Handle ── */
+    .drag-handle {
+      flex-shrink: 0; color: var(--border2);
+      cursor: grab; display: flex; align-items: center;
+      opacity: 0; transition: opacity var(--trans); margin-top: 3px;
     }
+    .task-card:hover .drag-handle { opacity: 1; }
+    .drag-handle svg { width: 14px; height: 14px; }
 
-    /* ── Responsive ────────────────────────────── */
+    /* ── Empty State ── */
+    .empty-state {
+      text-align: center; padding: 32px 0 16px;
+      color: var(--muted);
+      animation: fadeSlideIn 0.3s forwards; opacity: 0;
+    }
+    .empty-state .empty-icon { font-size: 26px; margin-bottom: 8px; }
+    .empty-state p { font-size: 13px; }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 32px; padding-top: 16px;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-stat { font-size: 12px; color: var(--text2); }
+    .footer-stat strong { color: var(--accent); }
+
+    .clear-btn {
+      background: transparent;
+      border: 1px solid var(--border2);
+      border-radius: 99px;
+      color: var(--text2);
+      font-family: var(--font-sans);
+      font-size: 11px; font-weight: 500;
+      padding: 5px 14px; cursor: pointer;
+      transition: all var(--trans); display: none;
+    }
+    .clear-btn.visible { display: block; }
+    .clear-btn:hover { border-color: var(--rose); color: var(--rose); background: var(--rose-bg); }
+
     @media (max-width: 500px) {
-      body { padding: 32px 16px 60px; }
-      .app-title { font-size: 44px; }
-      .task-text { font-size: 16px; }
-      .del-btn { opacity: 1; }
+      body { padding: 24px 12px 60px; }
+      .task-actions { opacity: 1; }
+      .drag-handle  { opacity: 1; }
     }
   </style>
 </head>
-
 <body>
-  <div class="app">
+<div class="app">
 
-    <!-- ── Header ── -->
-    <header class="header">
-      <div class="header-left">
-        <span class="app-label">✦ Gestão de Tarefas</span>
-        <h1 class="app-title">To<em>do</em><br>List.</h1>
-      </div>
-      <div class="header-right">
-        <div class="task-counter">
-          <strong id="countNum">0</strong>&nbsp;/&nbsp;10
-        </div>
-        <span class="app-label" id="countLabel">tarefas</span>
-      </div>
-    </header>
-
-    <!-- ── Progress ── -->
-    <div class="progress-wrap">
-      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  <header class="header">
+    <div>
+      <h1 class="header-title">Lista de<br><em>Afazeres</em></h1>
+      <p class="header-sub">organize seu dia com calma ✦</p>
     </div>
+    <div class="progress-pill">
+      <svg class="progress-ring" viewBox="0 0 24 24">
+        <circle class="ring-bg"   cx="12" cy="12" r="11"/>
+        <circle class="ring-fill" id="ringFill" cx="12" cy="12" r="11"/>
+      </svg>
+      <span id="progressLabel">0%</span>
+    </div>
+  </header>
 
-    <!-- ── Toast ── -->
-    <div class="toast" id="toast"></div>
+  <div class="toast" id="toast"></div>
 
-    <!-- ── Input ── -->
-    <div class="input-section">
-      <input
-        class="task-input"
-        id="taskInput"
-        type="text"
-        placeholder="Escreva uma nova tarefa…"
-        autocomplete="off"
-        maxlength="120"
-      />
+  <div class="input-card">
+    <div class="input-row">
+      <input class="task-input" id="taskInput" type="text"
+        placeholder="Nova tarefa…" maxlength="120" autocomplete="off"/>
       <button class="add-btn" id="addBtn">+ Adicionar</button>
     </div>
 
-    <!-- ── Dots limit indicator ── -->
-    <div class="limit-bar">
-      <span class="limit-label">Limite de tarefas</span>
-      <div class="limit-dots" id="limitDots"></div>
-    </div>
-
-    <!-- ── Task List ── -->
-    <ul class="task-list" id="taskList"></ul>
-
-    <!-- ── Footer ── -->
-    <footer class="footer">
-      <span class="footer-stat">
-        <span id="doneCount">0</span> concluída(s)
-      </span>
-      <button class="clear-done-btn" id="clearDoneBtn">
-        Limpar concluídas
-      </button>
-    </footer>
-
   </div>
 
-  <script>
-    const API = 'http://localhost:5000/api';
+  <div class="limit-row">
+    <span class="limit-label">Limite: <span id="countNum">0</span>/10 tarefas</span>
+    <div class="limit-dots" id="limitDots"></div>
+  </div>
 
-    // ─── DOM Refs ───────────────────────────────────
-    const taskInput   = document.getElementById('taskInput');
-    const addBtn      = document.getElementById('addBtn');
-    const taskList    = document.getElementById('taskList');
-    const countNum    = document.getElementById('countNum');
-    const countLabel  = document.getElementById('countLabel');
-    const progressFill= document.getElementById('progressFill');
-    const limitDots   = document.getElementById('limitDots');
-    const doneCount   = document.getElementById('doneCount');
-    const clearDoneBtn= document.getElementById('clearDoneBtn');
-    const toast       = document.getElementById('toast');
+  <div class="section-header">
+    <span class="section-title">A fazer</span>
+    <span class="section-line"></span>
+    <span class="section-count" id="pendingCount">0</span>
+  </div>
+  <div id="pendingList"></div>
 
-    let tasks = [];
-    let toastTimer = null;
+  <div class="section-header">
+    <span class="section-title">Concluídas</span>
+    <span class="section-line"></span>
+    <span class="section-count" id="doneCount">0</span>
+  </div>
+  <div id="doneList"></div>
 
-    // ─── Toast ──────────────────────────────────────
-    function showToast(msg, type = 'info') {
-      clearTimeout(toastTimer);
-      toast.textContent = msg;
-      toast.className = `toast ${type} show`;
-      toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+  <footer class="footer">
+    <span class="footer-stat">
+      <strong id="doneNum">0</strong> de <strong id="totalNum">0</strong> concluídas
+    </span>
+    <button class="clear-btn" id="clearBtn">Limpar concluídas</button>
+  </footer>
+
+</div>
+
+<script>
+  const API = 'http://localhost:5000/api';
+
+  const taskInput    = document.getElementById('taskInput');
+  const addBtn       = document.getElementById('addBtn');
+  const pendingList  = document.getElementById('pendingList');
+  const doneList     = document.getElementById('doneList');
+  const countNum     = document.getElementById('countNum');
+  const limitDots    = document.getElementById('limitDots');
+  const pendingCount = document.getElementById('pendingCount');
+  const doneCountEl  = document.getElementById('doneCount');
+  const doneNum      = document.getElementById('doneNum');
+  const totalNum     = document.getElementById('totalNum');
+  const clearBtn     = document.getElementById('clearBtn');
+  const toast        = document.getElementById('toast');
+  const ringFill     = document.getElementById('ringFill');
+  const progressLabel= document.getElementById('progressLabel');
+
+  let tasks = [];
+  let toastTimer;
+  let dragSrcId = null;
+
+  // ── Toast ──────────────────────────────────────
+  function showToast(msg, type = 'info') {
+    clearTimeout(toastTimer);
+    toast.textContent = msg;
+    toast.className = `toast ${type} show`;
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  // ── Utils ──────────────────────────────────────
+  function esc(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function formatDate(iso) {
+    if (!iso) return null;
+    const [y, m, d] = iso.split('-');
+    return `${d}/${m}/${y}`;
+  }
+
+  // ── Render ─────────────────────────────────────
+  function render() {
+    const total   = tasks.length;
+    const done    = tasks.filter(t => t.completed).length;
+    const pending = total - done;
+    const pct     = total > 0 ? Math.round((done / total) * 100) : 0;
+
+    countNum.textContent     = total;
+    doneNum.textContent      = done;
+    totalNum.textContent     = total;
+    pendingCount.textContent = pending;
+    doneCountEl.textContent  = done;
+
+    // ring  (circumference 2π×11 ≈ 69.12)
+    ringFill.style.strokeDashoffset = 69.12 - (pct / 100) * 69.12;
+    progressLabel.textContent = pct + '%';
+
+    // dots
+    limitDots.innerHTML = '';
+    for (let i = 0; i < 10; i++) {
+      const d = document.createElement('span');
+      d.className = 'dot';
+      if (i < total) d.classList.add(tasks[i].completed ? 'done' : 'active');
+      limitDots.appendChild(d);
     }
 
-    // ─── Render ─────────────────────────────────────
-    function render() {
-      const total = tasks.length;
-      const done  = tasks.filter(t => t.completed).length;
+    clearBtn.classList.toggle('visible', done > 0);
 
-      countNum.textContent = total;
-      countLabel.textContent = total === 1 ? 'tarefa' : 'tarefas';
+    const pendingTasks = tasks.filter(t => !t.completed);
+    const doneTasks    = tasks.filter(t =>  t.completed);
 
-      const pct = total > 0 ? (done / total) * 100 : 0;
-      progressFill.style.width = pct + '%';
+    pendingList.innerHTML = '';
+    doneList.innerHTML    = '';
 
-      doneCount.textContent = done;
-      clearDoneBtn.classList.toggle('visible', done > 0);
-
-      // dots
-      limitDots.innerHTML = '';
-      for (let i = 0; i < 10; i++) {
-        const d = document.createElement('span');
-        d.className = 'dot';
-        if (i < total) {
-          d.classList.add(tasks[i].completed ? 'filled-done' : 'filled');
-        }
-        limitDots.appendChild(d);
-      }
-
-      // list
-      taskList.innerHTML = '';
-
-      if (total === 0) {
-        const empty = document.createElement('li');
-        empty.className = 'empty-state';
-        empty.innerHTML = `
-          <span class="empty-icon">◌</span>
-          <p>Nenhuma tarefa por aqui</p>
-        `;
-        taskList.appendChild(empty);
-        return;
-      }
-
-      tasks.forEach((task, idx) => {
-        const li = document.createElement('li');
-        li.className = 'task-item' + (task.completed ? ' done' : '');
-        li.dataset.id = task.id;
-
-        li.innerHTML = `
-          <span class="task-num">${String(idx + 1).padStart(2, '0')}</span>
-          <label class="checkbox-wrap" title="Marcar como concluída">
-            <input type="checkbox" ${task.completed ? 'checked' : ''}/>
-            <span class="checkbox-visual"></span>
-          </label>
-          <span class="task-text">${escapeHtml(task.text)}</span>
-          <button class="del-btn" title="Remover tarefa">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-              <line x1="18" y1="6" x2="6" y2="18"/>
-              <line x1="6" y1="6" x2="18" y2="18"/>
-            </svg>
-          </button>
-        `;
-
-        li.querySelector('input[type=checkbox]').addEventListener('change', () => toggleTask(task.id));
-        li.querySelector('.task-text').addEventListener('click', () => toggleTask(task.id));
-        li.querySelector('.del-btn').addEventListener('click', () => removeTask(task.id, li));
-
-        taskList.appendChild(li);
-      });
+    if (pendingTasks.length === 0) {
+      pendingList.innerHTML = `<div class="empty-state"><div class="empty-icon">🌿</div><p>Sem tarefas pendentes — tudo em dia!</p></div>`;
+    } else {
+      pendingTasks.forEach(t => pendingList.appendChild(buildCard(t)));
     }
 
-    function escapeHtml(str) {
-      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    if (doneTasks.length === 0) {
+      doneList.innerHTML = `<div class="empty-state"><div class="empty-icon">✨</div><p>Nenhuma tarefa concluída ainda</p></div>`;
+    } else {
+      doneTasks.forEach(t => doneList.appendChild(buildCard(t)));
+    }
+  }
+
+  // ── Build Card ─────────────────────────────────
+  function buildCard(task) {
+    const card = document.createElement('div');
+    card.className = 'task-card' + (task.completed ? ' done-card' : '');
+    card.dataset.id = task.id;
+    card.draggable = !task.completed;
+
+    card.innerHTML = `
+      <div class="drag-handle" title="Arrastar para reordenar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="9"  cy="5"  r="1" fill="currentColor" stroke="none"/>
+          <circle cx="15" cy="5"  r="1" fill="currentColor" stroke="none"/>
+          <circle cx="9"  cy="12" r="1" fill="currentColor" stroke="none"/>
+          <circle cx="15" cy="12" r="1" fill="currentColor" stroke="none"/>
+          <circle cx="9"  cy="19" r="1" fill="currentColor" stroke="none"/>
+          <circle cx="15" cy="19" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+      </div>
+
+      <label class="check-wrap">
+        <input type="checkbox" ${task.completed ? 'checked' : ''}/>
+        <span class="check-visual"></span>
+      </label>
+
+      <div class="task-body">
+        <div class="task-text-display">${esc(task.text)}</div>
+        <div class="task-meta">
+          ${task.completed && task.completed_at
+            ? `<span class="completed-at-badge">✓ Concluída em ${formatDate(task.completed_at.split('T')[0])} às ${task.completed_at.split('T')[1].slice(0,5)}</span>`
+            : ''}
+        </div>
+      </div>
+
+      <div class="task-actions">
+        ${!task.completed ? `
+        <button class="icon-btn edit" title="Editar tarefa">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+        </button>` : ''}
+        <button class="icon-btn del" title="Remover tarefa">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6l-1 14H6L5 6"/>
+            <path d="M10 11v6M14 11v6M9 6V4h6v2"/>
+          </svg>
+        </button>
+      </div>
+    `;
+
+    card.querySelector('input[type=checkbox]').addEventListener('change', () => toggleTask(task.id));
+
+    const editBtn = card.querySelector('.edit');
+    if (editBtn) editBtn.addEventListener('click', e => { e.stopPropagation(); startEdit(card, task); });
+
+    card.querySelector('.task-text-display').addEventListener('dblclick', () => startEdit(card, task));
+    card.querySelector('.del').addEventListener('click', e => { e.stopPropagation(); removeTask(task.id, card); });
+
+    if (!task.completed) {
+      card.addEventListener('dragstart', onDragStart);
+      card.addEventListener('dragover',  onDragOver);
+      card.addEventListener('dragleave', onDragLeave);
+      card.addEventListener('drop',      onDrop);
+      card.addEventListener('dragend',   onDragEnd);
     }
 
-    // ─── API Calls ──────────────────────────────────
-    async function loadTasks() {
+    return card;
+  }
+
+  // ── Inline Edit ────────────────────────────────
+  function startEdit(card, task) {
+    const display = card.querySelector('.task-text-display');
+    const input = document.createElement('input');
+    input.className = 'task-edit-input';
+    input.value = task.text;
+    display.replaceWith(input);
+    input.focus(); input.select();
+
+    async function commitEdit() {
+      const newText = input.value.trim();
+      if (!newText || newText === task.text) { input.replaceWith(display); return; }
       try {
-        const res = await fetch(`${API}/tasks`);
-        tasks = await res.json();
-        render();
-      } catch {
-        showToast('Não foi possível conectar ao servidor.', 'error');
-      }
-    }
-
-    async function addTask() {
-      const text = taskInput.value.trim();
-      if (!text) {
-        showToast('Digite uma tarefa antes de adicionar.', 'error');
-        taskInput.focus();
-        return;
-      }
-
-      try {
-        const res = await fetch(`${API}/tasks`, {
-          method: 'POST',
+        const res = await fetch(`${API}/tasks/${task.id}`, {
+          method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text })
+          body: JSON.stringify({ text: newText, completed: task.completed })
         });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-          showToast(data.error, 'error');
-          return;
-        }
-
-        tasks.push(data);
-        taskInput.value = '';
-        taskInput.focus();
-        render();
-        showToast('Tarefa adicionada.', 'success');
-      } catch {
-        showToast('Erro ao adicionar tarefa.', 'error');
-      }
-    }
-
-    async function removeTask(id, li) {
-      li.classList.add('removing');
-      await new Promise(r => setTimeout(r, 240));
-
-      try {
-        await fetch(`${API}/tasks/${id}`, { method: 'DELETE' });
-        tasks = tasks.filter(t => t.id !== id);
-        render();
-        showToast('Tarefa removida.', 'info');
-      } catch {
-        showToast('Erro ao remover tarefa.', 'error');
-        li.classList.remove('removing');
-      }
-    }
-
-    async function toggleTask(id) {
-      try {
-        const res = await fetch(`${API}/tasks/${id}`, { method: 'PATCH' });
         const updated = await res.json();
-        tasks = tasks.map(t => t.id === id ? updated : t);
+        if (!res.ok) { showToast(updated.error, 'error'); input.replaceWith(display); return; }
+        tasks = tasks.map(t => t.id === task.id ? updated : t);
         render();
-      } catch {
-        showToast('Erro ao atualizar tarefa.', 'error');
-      }
+        showToast('Tarefa editada.', 'success');
+      } catch { showToast('Erro ao editar.', 'error'); input.replaceWith(display); }
     }
 
-    async function clearDone() {
-      const done = tasks.filter(t => t.completed);
-      for (const t of done) {
-        await fetch(`${API}/tasks/${t.id}`, { method: 'DELETE' });
-      }
-      tasks = tasks.filter(t => !t.completed);
-      render();
-      showToast(`${done.length} tarefa(s) concluída(s) removida(s).`, 'success');
-    }
-
-    // ─── Events ─────────────────────────────────────
-    addBtn.addEventListener('click', addTask);
-    taskInput.addEventListener('keydown', e => {
-      if (e.key === 'Enter') addTask();
+    input.addEventListener('blur', commitEdit);
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter')  input.blur();
+      if (e.key === 'Escape') { input.replaceWith(display); }
     });
-    clearDoneBtn.addEventListener('click', clearDone);
+  }
 
-    // ─── Init ────────────────────────────────────────
-    loadTasks();
-  </script>
+  // ── Drag & Drop ────────────────────────────────
+  function onDragStart(e) {
+    dragSrcId = this.dataset.id;
+    this.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+  }
+  function onDragOver(e)  { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; this.classList.add('drag-over'); }
+  function onDragLeave()  { this.classList.remove('drag-over'); }
+  function onDragEnd()    { document.querySelectorAll('.task-card').forEach(c => c.classList.remove('dragging','drag-over')); }
+
+  async function onDrop(e) {
+    e.preventDefault();
+    this.classList.remove('drag-over');
+    const targetId = this.dataset.id;
+    if (!dragSrcId || dragSrcId === targetId) return;
+
+    const pending = tasks.filter(t => !t.completed);
+    const done    = tasks.filter(t =>  t.completed);
+
+    const si = pending.findIndex(t => t.id === dragSrcId);
+    const ti = pending.findIndex(t => t.id === targetId);
+    if (si === -1 || ti === -1) return;
+
+    const [moved] = pending.splice(si, 1);
+    pending.splice(ti, 0, moved);
+    tasks = [...pending, ...done];
+    render();
+
+    try {
+      await fetch(`${API}/tasks/reorder`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids: tasks.map(t => t.id) })
+      });
+    } catch { showToast('Erro ao salvar ordem.', 'error'); }
+  }
+
+  // ── API Calls ──────────────────────────────────
+  async function loadTasks() {
+    try {
+      const res = await fetch(`${API}/tasks`);
+      tasks = await res.json();
+      render();
+    } catch { showToast('Não foi possível conectar ao servidor.', 'error'); }
+  }
+
+  async function addTask() {
+    const text = taskInput.value.trim();
+    if (!text) { showToast('Digite uma tarefa antes de adicionar.', 'error'); taskInput.focus(); return; }
+    try {
+      const res = await fetch(`${API}/tasks`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text })
+      });
+      const data = await res.json();
+      if (!res.ok) { showToast(data.error, 'error'); return; }
+
+      tasks.push(data);
+      taskInput.value = '';
+      taskInput.focus();
+      render();
+      showToast('Tarefa adicionada.', 'success');
+    } catch { showToast('Erro ao adicionar tarefa.', 'error'); }
+  }
+
+  async function removeTask(id, card) {
+    card.classList.add('removing');
+    await new Promise(r => setTimeout(r, 220));
+    try {
+      await fetch(`${API}/tasks/${id}`, { method: 'DELETE' });
+      tasks = tasks.filter(t => t.id !== id);
+      render();
+      showToast('Tarefa removida.', 'info');
+    } catch { showToast('Erro ao remover.', 'error'); card.classList.remove('removing'); }
+  }
+
+  async function toggleTask(id) {
+    try {
+      const res = await fetch(`${API}/tasks/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({})
+      });
+      const updated = await res.json();
+      tasks = tasks.map(t => t.id === id ? updated : t);
+      render();
+    } catch { showToast('Erro ao atualizar tarefa.', 'error'); }
+  }
+
+  async function clearDone() {
+    const done = tasks.filter(t => t.completed);
+    for (const t of done) await fetch(`${API}/tasks/${t.id}`, { method: 'DELETE' });
+    tasks = tasks.filter(t => !t.completed);
+    render();
+    showToast(`${done.length} tarefa(s) concluída(s) removida(s).`, 'success');
+  }
+
+  addBtn.addEventListener('click', addTask);
+  taskInput.addEventListener('keydown', e => { if (e.key === 'Enter') addTask(); });
+  clearBtn.addEventListener('click', clearDone);
+
+  loadTasks();
+</script>
 </body>
 </html>

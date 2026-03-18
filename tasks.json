@@ -1,32 +1,21 @@
 [
   {
-    "id": "e615dd49-788d-450b-b37d-607673ff87e6",
-    "text": "Jgfkgjkdfjgkdfjgkdjkgjdfkgjfdkgjkdfjgkdfjgkjdfkgjfkdjgkdfjgkdjfkgjdfkgjdkfjgkdfjkgjdkg ultimo",
+    "id": "0305b93a-7786-428c-84fc-052d2d01da86",
+    "text": "Comprar pão",
     "completed": false,
-    "created_at": "2026-03-17T19:46:17.491212"
+    "created_at": "2026-03-18T14:34:54.630283"
   },
   {
-    "id": "ec6d3b9b-82dd-4168-acd7-effa0ea4d193",
-    "text": "Gfdgdfgdf,ho,cob,locvb,olc,hlf,hlcg,hlcg gfdgdfgdf,ho,cob,locvb,olc,hlf,hlcg,hlcg gfdgdfgdf,ho,cob,locvb,olc,hlf,hlcg,hl",
+    "id": "d76970a3-eb52-484f-9343-592907cff773",
+    "text": "Comprar maçã",
     "completed": false,
-    "created_at": "2026-03-17T19:46:41.224369"
+    "created_at": "2026-03-18T14:35:02.975516"
   },
   {
-    "id": "2e87fcf0-51d9-478a-aa35-525d24b5b9a0",
-    "text": "T3",
+    "id": "0d28dfc0-f8e9-4042-a43c-dec7686d971f",
+    "text": "Comprar banana",
     "completed": true,
-    "created_at": "2026-03-17T19:47:43.340533"
-  },
-  {
-    "id": "e3e568a9-6047-49b0-b79e-b0b7e0efea21",
-    "text": "T4",
-    "completed": true,
-    "created_at": "2026-03-17T19:47:46.903668"
-  },
-  {
-    "id": "ceea7100-325f-4fd4-bc03-da28109e751a",
-    "text": "Cooomprar café",
-    "completed": false,
-    "created_at": "2026-03-17T19:47:54.781822"
+    "created_at": "2026-03-18T14:36:38.545274",
+    "completed_at": "2026-03-18T14:37:25.888575"
   }
 ]

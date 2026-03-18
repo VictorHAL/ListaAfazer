@@ -83,56 +83,15 @@ def delete_task(task_id):
     return jsonify({'success': True})
 
 @app.route('/api/tasks/<task_id>', methods=['PATCH'])
-def update_task(task_id):
-    data = request.get_json(silent=True) or {}
+def toggle_task(task_id):
     tasks = load_tasks()
-
     for task in tasks:
         if task['id'] == task_id:
-
-            # Toggle completed
-            if 'completed' in data:
-                task['completed'] = data['completed']
-                if data['completed']:
-                    task['completed_at'] = datetime.now().isoformat()
-                else:
-                    task.pop('completed_at', None)
-            else:
-                # toggle simples (sem body)
-                task['completed'] = not task['completed']
-                if task['completed']:
-                    task['completed_at'] = datetime.now().isoformat()
-                else:
-                    task.pop('completed_at', None)
-
-            # Edição de texto
-            if 'text' in data:
-                text = data['text'].strip()
-                if not text:
-                    return jsonify({'error': 'O texto não pode estar vazio.'}), 400
-                task['text'] = capitalize_first(text)
-
-            # Data de conclusão prevista
-            if 'due_date' in data:
-                task['due_date'] = data['due_date']  # ISO string ou None
-
+            task['completed'] = not task['completed']
             save_tasks(tasks)
             return jsonify(task)
 
     return jsonify({'error': 'Tarefa não encontrada.'}), 404
-
-
-@app.route('/api/tasks/reorder', methods=['PUT'])
-def reorder_tasks():
-    data = request.get_json(silent=True) or {}
-    ordered_ids = data.get('ids', [])
-    tasks = load_tasks()
-
-    id_map = {t['id']: t for t in tasks}
-    reordered = [id_map[i] for i in ordered_ids if i in id_map]
-
-    save_tasks(reordered)
-    return jsonify(reordered)
 
 # ──────────────────────────────────────────
 # Entry point

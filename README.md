@@ -82,14 +82,14 @@ ListaAfazer/
 
 ## 🗺️ Próximos Passos
 
-- [ ] Adicionar edição da tarefa
-- [ ] Adicionar data de conclusão da tarefa
-- [ ] Alterar cores para tons claros pasteis
+- [x] Adicionar edição da tarefa
+- [x] Adicionar data de conclusão da tarefa
+- [x] Alterar cores para tons claros pasteis
 - [ ] Autenticação de usuários
 - [ ] Migração para Firebase Firestore
 - [ ] Deploy no Firebase Hosting
 - [ ] Edição inline de tarefas
-- [ ] Mover as tarefas de lugar 
-- [ ] Separar tarefas concluidas de tarefas a serem feitas
+- [x] Mover as tarefas de lugar 
+- [x] Separar tarefas concluidas de tarefas a serem feitas
 
 ---
